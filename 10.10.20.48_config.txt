@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 6554 bytes
+Current configuration : 7141 bytes
 !
-! Last configuration change at 07:00:49 UTC Tue Feb 23 2021 by developer
+! Last configuration change at 06:34:52 UTC Wed Feb 24 2021 by developer
 !
 version 17.3
 service timestamps debug datetime msec
@@ -17,6 +17,22 @@ hostname csr1000v-1
 boot-start-marker
 boot-end-marker
 !
+!
+vrf definition blue
+ description Blue VRF
+ rd 1:410
+!
+vrf definition green
+ description Green VRF
+ rd 1:420
+!
+vrf definition myint
+ description myint VRF
+ rd 1:176
+!
+vrf definition red
+ description Red VRF
+ rd 1:400
 !
 enable secret 9 $9$GNcSrWbM1PyCqU$9.BCza34ClqbgyABGzRV1v5hjCWhaoN9K.gqxCtcCvE
 !
@@ -133,7 +149,7 @@ crypto pki certificate chain SLA-TrustPoint
   D697DF7F 28
   	quit
 !
-license udi pid CSR1000V sn 9GCN6T27GCN
+license udi pid CSR1000V sn 96SRL8OIDIT
 license boot level ax
 diagnostic bootup level minimal
 memory free low-watermark processor 71556
@@ -168,6 +184,26 @@ redundancy
 ! 
 ! 
 !
+!
+interface Loopback11176
+ description Pod Number 11176
+ vrf forwarding red
+ no ip address
+!
+interface Loopback12176
+ description Pod Number 12176
+ vrf forwarding blue
+ no ip address
+!
+interface Loopback13176
+ description Pod Number 13176
+ vrf forwarding green
+ no ip address
+!
+interface Loopback14176
+ description Pod Number 14176
+ vrf forwarding myint
+ no ip address
 !
 interface GigabitEthernet1
  description MANAGEMENT INTERFACE - DON'T TOUCH ME
